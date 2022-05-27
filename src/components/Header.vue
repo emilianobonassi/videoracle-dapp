@@ -6,7 +6,7 @@
         </div>
         <div class="center-side-header">
             <router-link to="/request">Request</router-link>
-            <router-link to="/answer">Answer</router-link>
+            <router-link to="/see-requests">Answer</router-link>
         </div>
         <div class="right-side-header">
             <div class="btn btn-success" @click="connect">Connect to your Wallet</div>

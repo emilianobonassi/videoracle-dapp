@@ -21,7 +21,7 @@ export default {
 
 <style>
 #app {
-  font-family: "Clarkson",Helvetica,sans-serif;
+  font-family: "Space Grotesk",SpaceGrotesk,sans-serif;
   font-display: swap;
   padding: 0 20px 0px 20px;
   display: flex;
