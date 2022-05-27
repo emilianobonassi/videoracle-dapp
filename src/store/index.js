@@ -1,24 +1,10 @@
-/*import { createStore } from 'vuex'
-
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
-*/
-
+import { createStore } from 'vuex'
+ 
 import {getLibrary} from "@/utils/web3";
 import {ethers} from "ethers";
 import {parseInt} from 'lodash'
 
-const web3ModalStore = {
+const web3ModalStore = createStore({
     state: {
         web3Modal: null,
 
@@ -93,5 +79,6 @@ const web3ModalStore = {
             commit('setLibrary', getLibrary())
         },
     }
-}
+})
+
 export default web3ModalStore;

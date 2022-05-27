@@ -11,7 +11,7 @@
         <div class="right-side-header">
             <div class="btn btn-success" @click="connect">Connect to your Wallet</div>
         </div>
-        <web3-modal-vue
+        <web3-modal-component
         ref="web3modal"
         :theme="theme"
         :provider-options="providerOptions"
@@ -46,9 +46,9 @@ export default {
     this.$nextTick(async () => {
       const web3modal = this.$refs.web3modal
       this.$store.commit("setWeb3Modal", web3modal)
-      if (web3modal.cachedProvider) {
+
+    if (web3modal.cachedProvider) {
         await this.$store.dispatch("connect")
-        this.subscribeMewBlockHeaders()
       }
     })
   },
