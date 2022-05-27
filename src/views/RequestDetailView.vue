@@ -9,7 +9,7 @@
             <div class="request-element request-timestamp">{{currentRequest.timestamp}}</div>
         </div>
         <div>
-            <form action="/action_page.php">
+            <form @submit.prevent="uploadVideoToLivepeer">
                 <input type="file" id="myFile" name="filename">
                 <input type="submit">
             </form>
@@ -36,11 +36,13 @@ export default {
     async uploadVideoToLivepeer() {
         var token = "b97c9795-7807-49c8-b2a3-d739fc7a8453"
         const file = document.getElementById('myFile').files[0]
-        var urlToUploadTheVidTo = await this.$axios
+        console.log(file.name)
+        var urlToUploadTheVidTo = await axios
             .post('https://livepeer.com/api/asset/request-upload', {
                 "name": file.name,
             }, {
                 headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
                 'Authorization': `Basic ${token}` , 
                 'Content-Type': 'application/json'
                 }, 
@@ -52,9 +54,9 @@ export default {
                 console.log(error)
         })
         console.log(urlToUploadTheVidTo)
-        var idLivePeer = await this.$axios
+        var idLivePeer = await axios
             .put(urlToUploadTheVidTo, {
-                file: Buffer.from(file),
+                file: file,
             }, {
                 headers: {
                 'Content-Type': 'video/mp4'
