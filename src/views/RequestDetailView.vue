@@ -10,7 +10,6 @@
         </div>
         <div>
             <form @submit.prevent="uploadVideoToLivepeer">
-                <input type="file" id="myFile" name="filename">
                 <input type="submit">
             </form>
         </div>
@@ -18,10 +17,7 @@
 </template>
 <script>
 import axios from 'axios'
-<<<<<<< HEAD
 import { videonft } from '@livepeer/video-nft'
-=======
->>>>>>> 3cfadd3a0a331e4413a0f63b208e0777cd6cbd64
 
 export default {
   data: function() {
@@ -37,17 +33,32 @@ export default {
     }
   },
   methods: {
-    async uploadVideoToLivepeer() {
-        var token = "b97c9795-7807-49c8-b2a3-d739fc7a8453"
-        const file = document.getElementById('myFile').files[0]
-        console.log(file.name)
-        // To upload videos from the filesystem
-        const uploader = new videonft.minter.Uploader();
-        // To process videos and export to IPFS
-        const vodApi = new videonft.minter.Api({ auth: { token } });
-        // To mint the NFT from the IPFS files
+    async uploadVideoToLivepeer() { 
+        const apiOpts = {
+            auth: { apiKey: process.env.VUE_APP_LIVEPEERKEY},
+            endpoint: videonft.api.prodApiEndpoint,
+        }
+        // Get file from the subit
+        /*
+        const videofile = document.getElementById('myFile').files[0]
+        const title = videofile.name
+        */
+
         const { chainId } = ethereum
-        const web3 = new videonft.minter.Web3({ ethereum, chainId });
+        const minter = new videonft.minter.FullMinter(apiOpts, { ethereum, chainId});
+        console.log(minter)
+        const file = await minter.uploader.pickFile();
+        const title = "TEST VIDEO"
+
+        let asset = await minter.api.createAsset(title, file);
+        console.log(asset);
+        const ipfs = await minter.api.exportToIPFS(asset.id);
+        console.log(ipfs);
+        const tx = await minter.web3.mintNft(ipfs.nftMetadataUrl);
+        console.log(tx);
+        const nftInfo = await minter.web3.getMintedNftInfo(tx);
+        console.log(nftInfo);
+        return nftInfo
     }
   }
 }
