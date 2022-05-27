@@ -8,8 +8,11 @@
             <router-link to="/request">Request</router-link>
             <router-link to="/see-requests">Answer</router-link>
         </div>
-        <div class="right-side-header">
+        <div v-if="!this.$store.state.active" class="right-side-header">
             <div class="btn btn-success" @click="connect">Connect to your Wallet</div>
+        </div>
+        <div v-else class="right-side-header">
+            <div class="btn btn-success" @click="disconnect">Disconnect</div>
         </div>
         <web3-modal-component
         ref="web3modal"
@@ -55,6 +58,9 @@ export default {
   methods: {
     connect() {
       this.$store.dispatch("connect")
+    },
+    disconnect() {
+      this.$store.dispatch("resetApp")
     }
   }
 }
