@@ -7,7 +7,7 @@
       <div class="form-titles">Request Description</div>
       <textarea class="form-inputs" v-model="requestDescription" type="description" placeholder="Request Description" style="height: 200px;"  rows="10"></textarea>
       <div class="form-titles">Reward in Matic</div>
-      <input class="form-inputs"  v-model="requestMoney" type="number" placeholder="Amount in Matic" />
+      <input class="form-inputs"  v-model="requestMoney" placeholder="Amount in Matic" />
       <div class="form-titles">Timeframe in hours</div>
       <input class="form-inputs"  v-model="requiredHours" type="number" placeholder="Required hours" />
       <button class="btn btn-success" style="width: 20%" @click="uploadTheQuestion" type="submit">Submit</button>
@@ -20,6 +20,9 @@
 import { uploadBlob } from "../services/ipfs.js"
 import { ref } from "vue";
 
+import { askQuestion, getQuestions } from '../services/videoracle'
+
+import {ethers} from "ethers";
 
 export default {
   name: 'RequestView',
@@ -33,17 +36,18 @@ export default {
   },
   methods: {
     async uploadTheQuestion() {
-
       var finished = ref(0);
 
-      console.log(this.question)
-      console.log(this.gigMoney)
+      if(!this.$store.state.active) {
+        await this.$store.dispatch('connect')
+        return
+      }
 
       // Create json for the question to then store in ipfs
       const questionJson = {
         requestTitle: this.requestTitle,
         requestDescription: this.requestDescription,
-        walletAddress: "0x206D6DE019C96d97c2CEC11b7447f6ED49005448", //this.$store.state.walletAddress,
+        walletAddress: this.$store.state.account,
         requestMoney: this.requestMoney,
         requiredHours: this.requiredHours,
         timestamp: Date.now()
@@ -60,6 +64,20 @@ export default {
         console.error(error);
         return;
       }
+
+      const provider = await this.$store.state.web3Modal.connect()
+
+      await askQuestion({
+        provider: new ethers.providers.Web3Provider(provider),
+        time2answer: this.requiredHours*60*60,
+        reward: ethers.utils.parseEther(this.requestMoney),
+        questionURI: questionHash.data.cid
+      })
+
+      // EXAMPLE FETCH Questions
+      const qs = await getQuestions({ provider: new ethers.providers.Web3Provider(provider) })
+      console.log(qs)
+
       return questionHash;
     }
   }

@@ -9,6 +9,7 @@
   "dependencies": {
     "@livepeer/video-nft": "^0.3.6",
     "assert": "^2.0.0",
+    "axios": "^0.27.2",
     "bignumber.js": "^9.0.2",
     "core-js": "^3.8.3",
     "crypto-browserify": "^3.12.0",

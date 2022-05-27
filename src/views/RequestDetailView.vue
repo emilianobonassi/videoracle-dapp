@@ -18,7 +18,10 @@
 </template>
 <script>
 import axios from 'axios'
+<<<<<<< HEAD
 import { videonft } from '@livepeer/video-nft'
+=======
+>>>>>>> 3cfadd3a0a331e4413a0f63b208e0777cd6cbd64
 
 export default {
   data: function() {
