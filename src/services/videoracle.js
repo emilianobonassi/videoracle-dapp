@@ -13,3 +13,21 @@ export async function askQuestion({
     
     videoracleContract.askQuestion(time2answer, reward, questionURI, {value: reward})
   }
+
+  export async function getQuestions({
+    provider
+  }) {  
+    const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+
+    const totQuestions = (await videoracleContract.questionsCount()).toNumber()
+
+    let questions = []
+
+    for(let i = 0; i < totQuestions; i++) {
+        questions.push(
+            await videoracleContract.questions(i)
+        );
+    }
+
+    return questions
+  }

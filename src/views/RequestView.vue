@@ -20,7 +20,7 @@
 import { uploadBlob } from "../services/ipfs.js"
 import { ref } from "vue";
 
-import { askQuestion } from '../services/videoracle'
+import { askQuestion, getQuestions } from '../services/videoracle'
 
 import {ethers} from "ethers";
 
@@ -70,9 +70,13 @@ export default {
       await askQuestion({
         provider: new ethers.providers.Web3Provider(provider),
         time2answer: this.requiredHours*60*60,
-        reward: this.requestMoney,
+        reward: ethers.utils.parseEther(this.requestMoney),
         questionURI: questionHash.data.cid
       })
+
+      // EXAMPLE FETCH Questions
+      const qs = await getQuestions({ provider: new ethers.providers.Web3Provider(provider) })
+      console.log(qs)
 
       return questionHash;
     }
