@@ -22,6 +22,8 @@ import { ref } from "vue";
 
 import { askQuestion } from '../services/videoracle'
 
+import {ethers} from "ethers";
+
 export default {
   name: 'RequestView',
   data() {
@@ -63,15 +65,10 @@ export default {
         return;
       }
 
-      console.log({
-        provider: this.$store.state.library,
-        time2answer: this.requiredHours*60*60,
-        reward: this.requestMoney,
-        questionURI: questionHash.data.cid
-      })
+      const provider = await this.$store.state.web3Modal.connect()
 
       await askQuestion({
-        provider: this.$store.state.library,
+        provider: new ethers.providers.Web3Provider(provider),
         time2answer: this.requiredHours*60*60,
         reward: this.requestMoney,
         questionURI: questionHash.data.cid

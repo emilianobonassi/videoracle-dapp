@@ -1,7 +1,7 @@
 import videoracleAbi from '../abi.json'
 import {ethers} from "ethers";
 
-const contractAddress = '0xFA2Ec1d9ed2357717F9fFD7D4800302AD5EC8678'
+const contractAddress = '0x12b3121fd4504b3bcff427fa5b05f6a5a6fc5250'
 
 export async function askQuestion({
     provider,
