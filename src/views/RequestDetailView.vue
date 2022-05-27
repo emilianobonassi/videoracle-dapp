@@ -35,7 +35,8 @@ export default {
   methods: {
     async uploadVideoToLivepeer() { 
         const apiOpts = {
-            auth: { apiKey: process.env.VUE_APP_LIVEPEERKEY},
+            // auth: { apiKey: process.env.VUE_APP_LIVEPEERKEY}, TO-DO MASK API KEY THROUGH EXTERNAL SERVICE
+            auth: { apiKey: 'c43ab73b-cf09-480b-b81d-04cd72ad4027'},
             endpoint: videonft.api.prodApiEndpoint,
         }
         // Get file from the subit
