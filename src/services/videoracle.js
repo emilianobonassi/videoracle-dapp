@@ -1,7 +1,10 @@
 import videoracleAbi from '../abi.json'
+import videonftAbi from '../abiVideoNft.json'
 import {ethers} from "ethers";
+import { axios } from 'axios';
 
 const contractAddress = '0x12b3121fd4504b3bcff427fa5b05f6a5a6fc5250'
+const contractAddressVideoNft = '0xa4e1d8fe768d471b048f9d73ff90ed8fccc03643'
 
 export async function askQuestion({
     provider,
@@ -37,7 +40,9 @@ export async function getAnswers({
 }) {  
   console.log(questionId)
   const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+  const videoNFTContract = new ethers.Contract(contractAddressVideoNft, videonftAbi, provider.getSigner())
   console.log(videoracleContract)
+  console.log(videoNFTContract)
 
   const totAnswers = (await videoracleContract.answersCount4Question(questionId)).toNumber()
   console.log(totAnswers)
@@ -45,12 +50,40 @@ export async function getAnswers({
   let answers = []
 
   for(let i = 0; i < totAnswers; i++) {
-      answers.push(
-          await videoracleContract.answers(i)
-      );
+      console.log(questionId, i)
+      var singAnswer = await videoracleContract.answersByQuestion(questionId, i)
+      console.log(singAnswer)
+
+      var answerVideoId = singAnswer[0].toNumber()
+      var answerer = singAnswer[1]
+      console.log(answerVideoId, answerer)
+      try {
+        var uri = await videoNFTContract.tokenURI(answerVideoId)
+      } catch(e) {
+        console.log(e)
+        // Go to next answer
+        continue
+      }
+      console.log(answerVideoId, answerer, uri)
+
+      // Get video uri from the uri
+      var livepeerURI = "https://ipfs.livepeer.com/ipfs/" + uri.replace("ipfs://", "")
+      console.log(livepeerURI)
+      var videoURI = await axios.get(livepeerURI).then(res => res.data)
+      console.log(videoURI)
+
+
+      var answ = { 
+        id: i,
+        answerVideoId: answerVideoId,
+        answerer: answerer,
+        uri: "https://ipfs.livepeer.com/ipfs/" + uri.replace("ipfs://", "")
+      }
+
+      answers.push(answ);
   }
 
-  return questions
+  return answers
 }
 
 export async function answerQuestion({

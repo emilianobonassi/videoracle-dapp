@@ -62,6 +62,7 @@ export default {
     },
     disconnect() {
       this.$store.dispatch("resetApp")
+      this.$router.push("/")
     }
   }
 }

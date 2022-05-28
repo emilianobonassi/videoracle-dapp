@@ -1,6 +1,10 @@
 <template>
+    <div v-if="loading" class="loading-ovelay">
+      <div class="loader"></div>
+    </div>
     <div class="request-container">
         <!--<img class="request-element request-img" :src="currentRequest.requestImg">-->
+        
         <div class="request-container-text">
             <div class="request-element request-title">{{currentRequest.requestTitle}}</div>
             <div class="request-element request-description"><span style="color: grey">Description: </span>{{currentRequest.requestDescription}}</div>
@@ -24,6 +28,7 @@ export default {
   data: function() {
     return {
       currentRequest: {},
+      loading: false
     }
   },
   async mounted() {
@@ -46,6 +51,7 @@ export default {
   },
   methods: {
     async respondWithVideo() { 
+        this.loading = true
         const apiOpts = {
             // auth: { apiKey: process.env.VUE_APP_LIVEPEERKEY}, TO-DO MASK API KEY THROUGH EXTERNAL SERVICE
             auth: { apiKey: 'c43ab73b-cf09-480b-b81d-04cd72ad4027'},
@@ -70,10 +76,7 @@ export default {
         const provider = await this.$store.state.web3Modal.connect()
 
         const questionTokenID = this.$route.params.uriplustokenid.split("-")[1];
-        const answerTokenID = await answersCount4Question({
-          provider: new ethers.providers.Web3Provider(provider), 
-          questionId: questionTokenID,
-        })
+        const answerTokenID = nftInfo.tokenId
         console.log("questionTokenID", questionTokenID)
         console.log("answerTokenID", answerTokenID)
 
@@ -84,6 +87,7 @@ export default {
           answerVideoId: parseInt(answerTokenID)
         })
         console.log(answerQs)
+        this.loading = false
 
         return nftInfo
     }
@@ -91,6 +95,35 @@ export default {
 }
 </script>
 <style scoped>
+.loading-ovelay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.loader {
+    position: absolute;
+    top: 46%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 .btn-success {
   margin-top: 20px;
 }

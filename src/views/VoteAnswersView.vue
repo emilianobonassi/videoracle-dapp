@@ -8,11 +8,14 @@
             <div class="request-element request-hours"><span style="color: grey">Remaining hours: </span>{{currentRequest.requiredHours}}</div>
         </div>
     </div>
-    <div class="answer-container">
-        <!-- TO-DO -> put up a bunch of videoplayer thumbnails for now
-        <div v-for="answer in currentRequest.answers" v-bind:key="answer.id">
-            {{answer}}
-        </div>--> 
+    <div class="videoanswer-container">
+        <div class="video-container" v-for="answer in answers" v-bind:key="answer.id">
+          <div>{{answer.id + 1}}</div>
+          <video width="320" height="240" controls>
+            <source :src="answer.uri" type="video/mp4">
+          </video>
+          <button style="margin-top: 10px" class="btn-success" >Vote +1</button>
+        </div>
     </div>
 </template>
 <script>
@@ -54,7 +57,17 @@ export default {
     console.log(tokenId)
     var qs = await getAnswers({ provider: new ethers.providers.Web3Provider(provider), questionId: tokenId })
     console.log(qs)
+    
+    /*
+    var ipfsTestLinks = ["https://ipfs.livepeer.com/ipfs/bafybeigsqlqiewusjphzcawpylaajxlesudu2je2iyybvfhkpijhk2rbdu",
+                     "https://ipfs.livepeer.com/ipfs/bafybeiew466bk3caift2gsnzeb23qmzmpqnim32utahanj5f5ks2ycvk7y",
+                     "https://ipfs.livepeer.com/ipfs/bafybeiao4uefvhu7ebv7ittydplg5rgyn47hex3wxrtrtqawwc3rnyg5ye"]
 
+    for (var i = 0; i < ipfsTestLinks.length; i++) {
+      var ipfsLink = ipfsTestLinks[i]
+      this.answers.push({"id": i, "answerVideoId": ipfsLink})
+    }
+    */
   },
 }
 
@@ -64,7 +77,6 @@ export default {
 .request-container {
     display: flex;
     flex-direction: row;
-    height: 300px;
     width: 60%;
     margin: 30px auto;
 }
@@ -85,5 +97,20 @@ export default {
 .request-container-text {
     display: flex;
     flex-direction: column;
+}
+.videoanswer-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.video-container {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

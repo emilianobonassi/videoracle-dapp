@@ -1,12 +1,12 @@
 <template>
   <div class="home">
     <div class="section-container">
-      <div>You need video proof of a request?</div>
+      <div class="home-title">You need video proof of a request?</div>
       <div>You can make a request and get it in a day.</div>
       <router-link to="/request"><button class="btn btn-primary home-btn">Ask a question</button></router-link>
     </div>
     <div class="section-container">
-      <div>Too much time on your hands and want earn an extra buck?</div>
+      <div class="home-title">Want to earn an extra buck?</div>
       <div>You can answer a request in a couple of minutes and start earning now.</div>
       <router-link to="/answerable-requests"><button class="btn btn-primary home-btn">Answer a request</button></router-link>
     </div>
@@ -32,8 +32,9 @@ export default {
   padding: 20px;
   height: 87vh;
   background-image: url("../assets/background.jpg");
-  margin-left: -5%;
+  margin-left: -6%;
   margin-right: -5%;
+  margin-bottom: -40px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -49,5 +50,10 @@ export default {
 }
 .home-btn {
   margin-top: 20px;
+}
+
+.home-title {
+  font-size: 1.5rem; 
+  font-weight: bold;
 }
 </style>
