@@ -24,7 +24,7 @@ const routes = [
     component: SeeRequestsView
   },
   {
-    path: "/answerable-requests/:id",
+    path: "/answerable-requests/:uriplustokenid",
     name: "RequestDetail",
     component: RequestDetailView
   },
@@ -36,7 +36,7 @@ const routes = [
   {
     path: '/vote-answers/:id',
     name: "VoteAnswersView",
-    component: VoteAnswersView
+    component: VoteAnswersView,
   }
 ]
 

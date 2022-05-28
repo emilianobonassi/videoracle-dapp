@@ -51,9 +51,17 @@ export async function getAnswers({
 }
 
 export async function answerQuestion({
-  questionId, answerVideoId
+  provider, questionId, answerVideoId
 }) {  
   const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
   
   videoracleContract.answerQuestion(questionId, answerVideoId)
+}
+
+export async function answersCount4Question({
+  provider, questionId
+}) {
+  const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+
+  return (await videoracleContract.answersCount4Question(questionId)).toNumber()
 }

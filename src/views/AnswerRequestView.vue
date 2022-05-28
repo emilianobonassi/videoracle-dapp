@@ -18,17 +18,23 @@
 <script>
 import axios from 'axios'
 import { videonft } from '@livepeer/video-nft'
-import { answerQuestion } from '../services/videoracle'
+import { answersCount4Question, answerQuestion } from '../services/videoracle'
+import {ethers} from "ethers";
+
 
 export default {
+  props: ["questionId"],
   data: function() {
     return {
       currentRequest: {},
     }
   },
   async mounted() {
+    // Log the questionId from the props
+    console.log(this.$route.params)
+
     // Get hte json file from IPFS through the CID in the routed URL
-    var jsonURL = "https://ipfs.io/ipfs/" + this.$route.params.id;
+    var jsonURL = "https://ipfs.io/ipfs/" + this.$route.params.uriplustokenid.split("-")[0];
     console.log(jsonURL)
     var currentRequest = await axios.get(jsonURL).then(function(response) {
       return response.data;
@@ -64,15 +70,23 @@ export default {
         console.log(nftInfo);
 
 
-        const questionURI = this.$route.params.id;
-        const answerURI = ipfs.videoFileCid
-        console.log("questionURI", questionURI)
-        console.log("answerURI", answerURI)
+        const provider = await this.$store.state.web3Modal.connect()
 
-        await answerQuestion({
-          questionId: questionURI,
-          answerVideoId: answerURI
+        const questionTokenID = this.$route.params.uriplustokenid.split("-")[1];
+        const answerTokenID = await answersCount4Question({
+          provider: new ethers.providers.Web3Provider(provider), 
+          questionId: questionTokenID,
         })
+        console.log("questionTokenID", questionTokenID)
+        console.log("answerTokenID", answerTokenID)
+
+      
+        var answerQs = await answerQuestion({
+          provider: new ethers.providers.Web3Provider(provider), 
+          questionId: parseInt(questionTokenID),
+          answerVideoId: parseInt(answerTokenID)
+        })
+        console.log(answerQs)
 
         return nftInfo
     }

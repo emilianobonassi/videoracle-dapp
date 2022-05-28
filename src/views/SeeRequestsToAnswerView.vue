@@ -1,6 +1,6 @@
 <template>
     <div class="seerequestswrapper">
-    <div class="pagetitle">Answer this questions</div>
+    <div class="pagetitle">Answer these questions</div>
         <div v-for="req in requests" v-bind:key="req.id">
             <div class="request-container">
                 <img class="request-element request-img" :src="req.requestImg">
@@ -9,8 +9,9 @@
                 <div class="request-element request-money">{{req.requestMoney}}</div>
                 <div class="request-element request-hours">{{req.requiredHours}}</div>
                 <div class="request-element request-timestamp">{{req.timestamp}}</div>
+                {{ req.id }}
             </div>
-            <button class="btn btn-success" @click="answerRequest(req.id)">Answer</button>
+            <button class="btn btn-success" @click="answerRequest(req.questionURI, req.tokenID)">Answer</button>
         </div>
     </div>
 </template>
@@ -33,8 +34,8 @@ export default {
     }
   },
   methods: {
-    answerRequest: function(id) {
-      this.$router.push("/answerable-requests/" + id);
+    answerRequest: function(questionURI, tokenID) {
+      this.$router.push("/answerable-requests/" + questionURI + "-" + tokenID);
     }
   },
   async mounted() {
@@ -50,7 +51,9 @@ export default {
       var questionJson = await axios.get(jsonURL).then(function(response) {
         return response.data;
       });
-      questionJson["id"] = qs[i].questionURI
+      questionJson.tokenID = i
+      questionJson.questionURI = qs[i].questionURI
+
       this.requests.push(questionJson)
     }
   },
