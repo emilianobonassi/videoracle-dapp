@@ -31,3 +31,29 @@ export async function askQuestion({
 
     return questions
   }
+
+export async function getAnswers({
+  provider, questionId
+}) {  
+  const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+
+  const totAnswers = (await videoracleContract.answersCount4Question(questionId)).toNumber()
+
+  let answers = []
+
+  for(let i = 0; i < totAnswers; i++) {
+      answers.push(
+          await videoracleContract.questions(i)
+      );
+  }
+
+  return questions
+}
+
+export async function answerQuestion({
+  questionId, answerVideoId
+}) {  
+  const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+  
+  videoracleContract.answerQuestion(questionId, answerVideoId)
+}

@@ -6,7 +6,8 @@
         </div>
         <div class="center-side-header">
             <router-link to="/request">Request</router-link>
-            <router-link to="/see-requests">Answer</router-link>
+            <router-link to="/answerable-requests">Answer</router-link>
+            <router-link to="/my-requests">My Requests</router-link>
         </div>
         <div v-if="!this.$store.state.active" class="right-side-header">
             <div class="btn btn-success" @click="connect">Connect to your Wallet</div>

@@ -9,7 +9,7 @@
             <div class="request-element request-timestamp">{{currentRequest.timestamp}}</div>
         </div>
         <div>
-            <form @submit.prevent="uploadVideoToLivepeer">
+            <form @submit.prevent="respondWithVideo">
                 <input type="submit">
             </form>
         </div>
@@ -18,33 +18,36 @@
 <script>
 import axios from 'axios'
 import { videonft } from '@livepeer/video-nft'
+import { answerQuestion } from '../services/videoracle'
 
 export default {
   data: function() {
     return {
-      currentRequest: {
-        id: '1q9241092',
-        requestImg: "https://its-mobility.de/wp-content/uploads/placeholder.png",
-        requestTitle: 'TEST ONE',
-        requestDescription: 'THIS IS A TEST DESCRIPTION',
-        requestMoney: 10,
-        requiredHours: 310
-      },
+      currentRequest: {},
     }
   },
+  async mounted() {
+    // Get hte json file from IPFS through the CID in the routed URL
+    var jsonURL = "https://ipfs.io/ipfs/" + this.$route.params.id;
+    console.log(jsonURL)
+    var currentRequest = await axios.get(jsonURL).then(function(response) {
+      return response.data;
+    });
+    console.log(currentRequest)
+    this.currentRequest = currentRequest
+    if (!currentRequest.requestImg) {
+      this.currentRequest["requestImg"] = "https://its-mobility.de/wp-content/uploads/placeholder.png"
+    }
+    console.log(this.currentRequest)
+
+  },
   methods: {
-    async uploadVideoToLivepeer() { 
+    async respondWithVideo() { 
         const apiOpts = {
             // auth: { apiKey: process.env.VUE_APP_LIVEPEERKEY}, TO-DO MASK API KEY THROUGH EXTERNAL SERVICE
             auth: { apiKey: 'c43ab73b-cf09-480b-b81d-04cd72ad4027'},
             endpoint: videonft.api.prodApiEndpoint,
         }
-        // Get file from the subit
-        /*
-        const videofile = document.getElementById('myFile').files[0]
-        const title = videofile.name
-        */
-
         const { chainId } = ethereum
         const minter = new videonft.minter.FullMinter(apiOpts, { ethereum, chainId});
         console.log(minter)
@@ -59,9 +62,21 @@ export default {
         console.log(tx);
         const nftInfo = await minter.web3.getMintedNftInfo(tx);
         console.log(nftInfo);
+
+
+        const questionURI = this.$route.params.id;
+        const answerURI = ipfs.videoFileCid
+        console.log("questionURI", questionURI)
+        console.log("answerURI", answerURI)
+
+        await answerQuestion({
+          questionId: questionURI,
+          answerVideoId: answerURI
+        })
+
         return nftInfo
     }
-  }
+  },
 }
 </script>
 <style scoped>

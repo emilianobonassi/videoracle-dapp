@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import RequestView from '../views/RequestView.vue'
-import SeeRequestsView from '../views/SeeRequestsView.vue'
-import RequestDetailView from '../views/RequestDetailView.vue'
+import RequestView from '../views/MakeRequestView.vue'
+import SeeRequestsView from '../views/SeeRequestsToAnswerView.vue'
+import RequestDetailView from '../views/AnswerRequestView.vue'
+import MyRequestsView from '../views/MyRequestsView.vue'
+import VoteAnswersView from '../views/VoteAnswersView.vue'
 
 
 const routes = [
@@ -17,15 +19,25 @@ const routes = [
     component: RequestView
   },
   {
-    path: '/see-requests',
+    path: '/answerable-requests',
     name: 'SeeRequests',
     component: SeeRequestsView
   },
   {
-    path: "/see-requests/:id",
+    path: "/answerable-requests/:id",
     name: "RequestDetail",
     component: RequestDetailView
   },
+  {
+    path: '/my-requests',
+    name: "MyRequests",
+    component: MyRequestsView
+  },
+  {
+    path: '/vote-answers/:id',
+    name: "VoteAnswersView",
+    component: VoteAnswersView
+  }
 ]
 
 const router = createRouter({

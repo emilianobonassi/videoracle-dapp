@@ -15,24 +15,46 @@
     </div>
 </template>
 <script>
+import { askQuestion, getQuestions } from '../services/videoracle'
+import {ethers} from "ethers";
+import axios from 'axios'
+
 export default {
   data: function() {
     return {
-      requests: [{
+      requests: [/*{
         id: '1q9241092',
         requestImg: "https://its-mobility.de/wp-content/uploads/placeholder.png",
         requestTitle: 'TEST ONE',
         requestDescription: 'THIS IS A TEST DESCRIPTION',
         requestMoney: 10,
         requiredHours: 310
-      }],
+      }*/],
     }
   },
   methods: {
     answerRequest: function(id) {
-      this.$router.push("/see-requests/" + id);
+      this.$router.push("/answerable-requests/" + id);
     }
-  }
+  },
+  async mounted() {
+    console.log("mounted")
+    const provider = await this.$store.state.web3Modal.connect()
+    var qs = await getQuestions({ provider: new ethers.providers.Web3Provider(provider) })
+    console.log(qs)
+
+    // Append every questionURI's json from IPFS to the requests array
+    for (var i = 0; i < qs.length; i++) {
+      var jsonURL = "https://ipfs.io/ipfs/" + qs[i].questionURI
+      console.log(jsonURL)
+      var questionJson = await axios.get(jsonURL).then(function(response) {
+        return response.data;
+      });
+      questionJson["id"] = qs[i].questionURI
+      this.requests.push(questionJson)
+    }
+  },
+    
 }
 </script>
 <style scoped>
