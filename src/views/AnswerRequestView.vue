@@ -1,16 +1,13 @@
 <template>
     <div class="request-container">
-        <img class="request-element request-img" :src="currentRequest.requestImg">
+        <!--<img class="request-element request-img" :src="currentRequest.requestImg">-->
         <div class="request-container-text">
             <div class="request-element request-title">{{currentRequest.requestTitle}}</div>
-            <div class="request-element request-description">{{currentRequest.requestDescription}}</div>
-            <div class="request-element request-money">{{currentRequest.requestMoney}}</div>
-            <div class="request-element request-hours">{{currentRequest.requiredHours}}</div>
-            <div class="request-element request-timestamp">{{currentRequest.timestamp}}</div>
-        </div>
-        <div>
+            <div class="request-element request-description"><span style="color: grey">Description: </span>{{currentRequest.requestDescription}}</div>
+            <div class="request-element request-money"><span style="color: grey">Matic award: </span>{{currentRequest.requestMoney}} MATIC</div>
+            <div class="request-element request-hours"><span style="color: grey">Remaining hours: </span>{{currentRequest.requiredHours}}</div>
             <form @submit.prevent="respondWithVideo">
-                <input type="submit">
+                <input class="btn btn-success" type="submit">
             </form>
         </div>
     </div>
@@ -94,6 +91,16 @@ export default {
 }
 </script>
 <style scoped>
+.btn-success {
+  margin-top: 20px;
+}
+
+.request-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 .request-container {
     display: flex;
     flex-direction: row;

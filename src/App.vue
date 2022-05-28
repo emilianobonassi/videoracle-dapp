@@ -20,10 +20,19 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('./assets/SpaceGrotesk-VariableFont_wght.ttf');
+}
+.btn-success {
+  background-color: #FFA739 !important;
+  border-color: #FFA739 !important;
+}
+
 #app {
-  font-family: "Space Grotesk",SpaceGrotesk,sans-serif;
+  font-family: "SpaceGrotesk",SpaceGrotesk,sans-serif;
   font-display: swap;
-  padding: 0 20px 0px 20px;
+  padding: 0 5% 0px 5% ;
   display: flex;
   min-height: 100vh;
   flex-direction: column;

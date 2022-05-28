@@ -1,4 +1,4 @@
-# vuegig
+# VideOracle
 
 ## Project setup
 ```

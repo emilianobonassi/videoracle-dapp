@@ -1,8 +1,8 @@
 <template>
     <div class="header-nav-bar">
         <div class="left-side-header">
-            <router-link to="/"><img class="videoracle-logo" alt="videoracle-logo" src="../assets/logo-placeholder.png"/></router-link>
-            <router-link style="margin-left: 0;" to="/">Videoracle</router-link>
+            <router-link style="margin-left: 0; margin-right: 10px;" to="/"><img class="videoracle-logo" alt="videoracle-logo" src="../assets/logo.png"/></router-link>
+            <router-link style="margin-left: 0;" to="/"><img class="videoracle-logotype" alt="videoracle-logo" src="../assets/logotype.png"/></router-link>
         </div>
         <div class="center-side-header">
             <router-link to="/request">Request</router-link>
@@ -68,23 +68,30 @@ export default {
 </script>
 
 <style scoped>
+.videoracle-logotype {
+  height: 1.5rem;
+}
+
 .header-nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-decoration: none;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 a {
     text-decoration: none;
     margin: 0 20px;
     color: black;
+    font-size: 1.2rem;
 }
 
 .videoracle-logo {
     width: 50px;
     height: 50px;
+    margin-right: 0px !important;
 }
 
 .left-side-header {

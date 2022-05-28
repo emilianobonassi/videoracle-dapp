@@ -1,16 +1,14 @@
 <template>
     <div class="seerequestswrapper">
-        <div class="pagetitle">Answer this questions</div>
+        <div class="pagetitle">My Requests</div>
             <div v-for="req in myRequests" v-bind:key="req.id">
                 <div class="request-container">
-                    <img class="request-element request-img" :src="req.requestImg">
                     <div class="request-element request-title">{{req.requestTitle}}</div>
-                    <div class="request-element request-description">{{req.requestDescription}}</div>
-                    <div class="request-element request-money">{{req.requestMoney}}</div>
-                    <div class="request-element request-hours">{{req.requiredHours}}</div>
-                    <div class="request-element request-timestamp">{{req.timestamp}}</div>
+                    <div class="request-element request-description"><span style="color: grey">Description: </span>{{req.requestDescription}}</div>
+                    <div class="request-element request-money"><span style="color: grey">Matic award: </span>{{req.requestMoney}} MATIC</div>
+                    <div class="request-element request-hours"><span style="color: grey">Remaining hours: </span>{{req.requiredHours}}</div>
+                    <button class="btn btn-success" @click="voteAnswers(req.questionURI, req.tokenID)">Vote the best answer</button>
                 </div>
-            <button class="btn btn-success" @click="voteAnswers(req.questionURI, req.tokenID)">Vote the best answer</button>
         </div>
     </div>
 </template>
@@ -58,18 +56,23 @@ export default {
 
 </script>
 <style scoped>
-.seerequestswrapper {
-    padding: 20px;
+.btn-success {
+  margin-top: 10px;
 }
+
   .pagetitle {
     font-size: 2em;
     margin-bottom: 1em;
+    margin-top: 0.2em;
   }
 .request-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  border: 1px solid #cfcfcf;
+  margin-bottom: 1em;
+  padding: 20px;
 }
 .request-img {
   max-width: 300px; 

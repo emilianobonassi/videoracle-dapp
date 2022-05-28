@@ -1,14 +1,14 @@
 <template>
   <div class="home">
     <div class="section-container">
-      <div>You need a video proof of a request?</div>
-      <div>You can make a request and get a video proof of it.</div>
-      <router-link to="/request"><button class="btn btn-primary">Ask a question</button></router-link>
+      <div>You need video proof of a request?</div>
+      <div>You can make a request and get it in a day.</div>
+      <router-link to="/request"><button class="btn btn-primary home-btn">Ask a question</button></router-link>
     </div>
     <div class="section-container">
-      <div>Too much time on your end and want earn an extra buck?</div>
-      <div>You can answer a request in a couple</div>
-      <router-link to="/answerable-requests"><button class="btn btn-primary">Answer a request</button></router-link>
+      <div>Too much time on your hands and want earn an extra buck?</div>
+      <div>You can answer a request in a couple of minutes and start earning now.</div>
+      <router-link to="/answerable-requests"><button class="btn btn-primary home-btn">Answer a request</button></router-link>
     </div>
   </div>
 </template>
@@ -31,11 +31,23 @@ export default {
   justify-content: space-around;
   padding: 20px;
   height: 87vh;
+  background-image: url("../assets/background.jpg");
+  margin-left: -5%;
+  margin-right: -5%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(10px);
 }
 .section-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 50%;
+  padding: 40px;
+}
+.home-btn {
+  margin-top: 20px;
 }
 </style>

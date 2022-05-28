@@ -89,7 +89,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 0.2em;
   margin-bottom: auto;
 }
 

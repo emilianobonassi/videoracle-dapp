@@ -3,15 +3,12 @@
     <div class="pagetitle">Answer these questions</div>
         <div v-for="req in requests" v-bind:key="req.id">
             <div class="request-container">
-                <img class="request-element request-img" :src="req.requestImg">
                 <div class="request-element request-title">{{req.requestTitle}}</div>
-                <div class="request-element request-description">{{req.requestDescription}}</div>
-                <div class="request-element request-money">{{req.requestMoney}}</div>
-                <div class="request-element request-hours">{{req.requiredHours}}</div>
-                <div class="request-element request-timestamp">{{req.timestamp}}</div>
-                {{ req.id }}
+                <div class="request-element request-description"><span style="color: grey">Description: </span>{{req.requestDescription}}</div>
+                <div class="request-element request-money"><span style="color: grey">Matic award: </span>{{req.requestMoney}} MATIC</div>
+                <div class="request-element request-hours"><span style="color: grey">Remaining hours: </span>{{req.requiredHours}}</div>
+                <button style="margin-top: 10px;" class="btn btn-success" @click="answerRequest(req.questionURI, req.tokenID)">Answer</button>
             </div>
-            <button class="btn btn-success" @click="answerRequest(req.questionURI, req.tokenID)">Answer</button>
         </div>
     </div>
 </template>
@@ -53,26 +50,33 @@ export default {
       });
       questionJson.tokenID = i
       questionJson.questionURI = qs[i].questionURI
-
-      this.requests.push(questionJson)
+      if (questionJson.requestImg == "" || questionJson.requestImg == null) {
+        questionJson.requestImg = "../assets/service-request-icon.png"
+      }
+      // If the word test is not in the title, then it is a request
+      if (questionJson.requestTitle.toLowerCase().indexOf("test") == -1) {
+        this.requests.push(questionJson)
+      }
+      //this.requests.push(questionJson)
     }
   },
     
 }
 </script>
 <style scoped>
-.seerequestswrapper {
-    padding: 20px;
-}
   .pagetitle {
     font-size: 2em;
     margin-bottom: 1em;
+    margin-top: 0.2em;
   }
 .request-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  border: 1px solid #cfcfcf;
+  margin-bottom: 1em;
+  padding: 20px;
 }
 .request-img {
   max-width: 300px; 
