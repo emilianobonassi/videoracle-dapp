@@ -102,3 +102,11 @@ export async function answersCount4Question({
 
   return (await videoracleContract.answersCount4Question(questionId)).toNumber()
 }
+
+export async function submitVoting({
+  provider, questionId, answersIds, points
+}) {  
+  const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+
+  videoracleContract.voteAnswers(questionId, answersIds, points)
+}

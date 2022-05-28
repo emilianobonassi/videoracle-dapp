@@ -20,7 +20,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { getQuestions, getAnswers } from '../services/videoracle'
+import { getQuestions, getAnswers, submitVoting } from '../services/videoracle'
 import {ethers} from "ethers";
 
 

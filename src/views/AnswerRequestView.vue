@@ -11,7 +11,7 @@
             <div class="request-element request-money"><span style="color: grey">Matic award: </span>{{currentRequest.requestMoney}} MATIC</div>
             <div class="request-element request-hours"><span style="color: grey">Remaining hours: </span>{{currentRequest.requiredHours}}</div>
             <form @submit.prevent="respondWithVideo">
-                <input class="btn btn-success" type="submit">
+                <input class="btn btn-success" type="submit" value="Submit Video proof">
             </form>
         </div>
     </div>
