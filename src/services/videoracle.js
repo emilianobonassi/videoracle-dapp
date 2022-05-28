@@ -1,7 +1,7 @@
 import videoracleAbi from '../abi.json'
 import videonftAbi from '../abiVideoNft.json'
 import {ethers} from "ethers";
-import { axios } from 'axios';
+import axios from 'axios';
 
 const contractAddress = '0x12b3121fd4504b3bcff427fa5b05f6a5a6fc5250'
 const contractAddressVideoNft = '0xa4e1d8fe768d471b048f9d73ff90ed8fccc03643'
@@ -69,15 +69,16 @@ export async function getAnswers({
       // Get video uri from the uri
       var livepeerURI = "https://ipfs.livepeer.com/ipfs/" + uri.replace("ipfs://", "")
       console.log(livepeerURI)
-      var videoURI = await axios.get(livepeerURI).then(res => res.data)
-      console.log(videoURI)
+      var videoURI = (await axios.get(livepeerURI)).data
+      console.log(videoURI.properties.video)
+      videoURI = "https://ipfs.livepeer.com/ipfs/" + videoURI.properties.video.replace("ipfs://", "")
 
 
       var answ = { 
         id: i,
         answerVideoId: answerVideoId,
         answerer: answerer,
-        uri: "https://ipfs.livepeer.com/ipfs/" + uri.replace("ipfs://", "")
+        uri:videoURI
       }
 
       answers.push(answ);

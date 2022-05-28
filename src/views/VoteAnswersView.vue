@@ -56,7 +56,9 @@ export default {
     console.log(this.$route.params.uriplustokenid.split('-')[1])
     console.log(tokenId)
     var qs = await getAnswers({ provider: new ethers.providers.Web3Provider(provider), questionId: tokenId })
+
     console.log(qs)
+    this.answers = qs
     
     /*
     var ipfsTestLinks = ["https://ipfs.livepeer.com/ipfs/bafybeigsqlqiewusjphzcawpylaajxlesudu2je2iyybvfhkpijhk2rbdu",
