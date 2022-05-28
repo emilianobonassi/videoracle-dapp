@@ -35,15 +35,18 @@ export async function askQuestion({
 export async function getAnswers({
   provider, questionId
 }) {  
+  console.log(questionId)
   const videoracleContract = new ethers.Contract(contractAddress, videoracleAbi, provider.getSigner())
+  console.log(videoracleContract)
 
   const totAnswers = (await videoracleContract.answersCount4Question(questionId)).toNumber()
+  console.log(totAnswers)
 
   let answers = []
 
   for(let i = 0; i < totAnswers; i++) {
       answers.push(
-          await videoracleContract.questions(i)
+          await videoracleContract.answers(i)
       );
   }
 

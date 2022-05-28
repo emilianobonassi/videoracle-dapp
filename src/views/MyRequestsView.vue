@@ -10,7 +10,7 @@
                     <div class="request-element request-hours">{{req.requiredHours}}</div>
                     <div class="request-element request-timestamp">{{req.timestamp}}</div>
                 </div>
-            <button class="btn btn-success" @click="voteAnswers(req.id)">Vote the best answer</button>
+            <button class="btn btn-success" @click="voteAnswers(req.questionURI, req.tokenID)">Vote the best answer</button>
         </div>
     </div>
 </template>
@@ -39,7 +39,8 @@ export default {
       var questionJson = await axios.get(jsonURL).then(function(response) {
         return response.data;
       });
-      questionJson["id"] = qs[i].questionURI
+      questionJson["questionURI"] = qs[i].questionURI
+      questionJson["tokenID"] = i
       console.log(questionJson)
       console.log(this.$store.state)
       if (questionJson.walletAddress == this.$store.state.account) {
@@ -48,8 +49,8 @@ export default {
     }
   },
     methods: {
-        voteAnswers: function(id) {
-            this.$router.push("/vote-answers/" + id);
+        voteAnswers: function(uri, questionId) {
+            this.$router.push("/vote-answers/" + uri + '-' + questionId);
         }
     },
 }

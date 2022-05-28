@@ -34,7 +34,7 @@ const routes = [
     component: MyRequestsView
   },
   {
-    path: '/vote-answers/:id',
+    path: '/vote-answers/:uriplustokenid',
     name: "VoteAnswersView",
     component: VoteAnswersView,
   }
